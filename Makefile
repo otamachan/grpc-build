@@ -1,5 +1,5 @@
 VERSION:=1.14.1
-DESTDIR=/usr
+DESTDIR=/usr/local
 
 all: grpc
 	make -C grpc
@@ -10,10 +10,11 @@ grpc:
 	git -C grpc submodule update
 
 
-install: all
+install:
+	mkdir -p $(DESTDIR)/lib
+	make -C grpc/third_party/protobuf install
 	mkdir -p $(DESTDIR)/include/grpc
 	make -C grpc install prefix=$(DESTDIR)
-	cp grpc/third_party/protobuf/src/protoc $(DESTDIR)/bin
 
 clean:
 	rm -rf grpc

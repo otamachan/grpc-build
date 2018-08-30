@@ -2,12 +2,15 @@
 set -xe
 VERSION=${VERSION:=1.14.1}
 echo VERSION=${VERSION}
+SUDO=
+if [ "$(id -u)" != "0" ]; then
+    SUDO=sudo
+fi
 make VERSION=${VERSION}
 ARCH=amd64
-checkinstall \
+$SUDO checkinstall \
     -y \
     --install=no \
-    --fstrans=yes \
     --maintainer=otamachan@gmail.com \
     --arch=${ARCH} \
     --pkgname=grpc \
