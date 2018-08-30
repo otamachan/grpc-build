@@ -1,0 +1,18 @@
+sudo: required
+language: generic
+services:
+- docker
+script:
+- docker build -t builder .
+- mkdir output
+- docker run --volume $(pwd)/output:/output --env OUTPUT=/output builder
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: pOonkRmhAeAdFuDAIdNtytJi1KTrjvj+YdELkA7psiAXdTNyspAenwZlRD17scH+a2La0V3XduMh9jQ5JAX8ZXilV8tClMvE/iTmUEjkL89E+X4bZhWl2B1PRUKl9ZriQb2KwwjY6029i9S1E1nY2n3KJckiJ31nsYA4qvGm79h5ilQdzSXbWaf6G89s/EAj6TMNoXMOz7XVNp15otev/KJptlaHy9RFvUwoo/KpaQXTMPbjMEtH5f3hjY742xjHN0XrhcgzJQ16hKX46VznUM0yiY+78CSThLwoWtMpjsydFi3P+YoktyT3sdM4o9b12BjUUlhj4cN+KzVaSjc+7wXDC/7BVkIz8O0a7aSqL3WP55nbmyngeS9hy8ukBHCcwdDMkQip7iakVeuxD0S8nBh53RVZ6iCms3p478F7Mj73B2RXppczDoQhakmP+CURw/MhsGeYUs0c9xroT7nzEtErVpy0iYZpEOKvqa4RHp2tR/Ch0iHSCpGqE9hGIq73wmbZvqJi/ecmkTcMrg4NvWgCom3Z8PdZmTMRkVGe+Ue9l3nKTh7HsMBd3w8Wn+OxIemLi8QYGtCCL3iJ6XOOi/pFynhM5CTOdAauHao6f9qINkEDOvLs+f8JmlF2h9DGd1FQ9rdiLvL1sgZBkj0KjJA9IPKd/dMOHHwzSSyLA7A=
+  file_glob: true
+  file: "output/*.deb"
+  on:
+    tags: true
+    repo: otamachan/grpc-build
