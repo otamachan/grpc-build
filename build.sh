@@ -20,6 +20,7 @@ $SUDO checkinstall \
     --deldesc=yes \
     --backup=no make install VERSION=${VERSION}
 rm -rf description* doc-pak
+dpkg -c *.deb
 if [ -n "${OUTPUT}" ]; then
     cp *.deb ${OUTPUT}
 fi
